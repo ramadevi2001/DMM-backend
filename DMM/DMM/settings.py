@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "user",
+    "choices",
+    "goals",
+    "monthly_goals",
 ]
 
 MIDDLEWARE = [
@@ -145,4 +148,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',  # Example permission class
     ),
+}
+# SimpleJWT settings for token lifetime
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
