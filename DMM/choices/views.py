@@ -1,3 +1,5 @@
+# choices/views.py
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -34,7 +36,16 @@ class ChoiceDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response(serializer.data)
         except serializers.ValidationError as e:
             return Response({'non_field_errors': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({'message': 'Record deleted successfully'}, status=status.HTTP_200_OK)
+
+class UserChoicesView(generics.ListAPIView):
+    serializer_class = ChoiceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')
+        return Choice.objects.filter(user_id=user_id)
