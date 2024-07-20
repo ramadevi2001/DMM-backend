@@ -22,16 +22,18 @@
    3. run the command for makign the migrations `python manage.py makemigrations`
    4. run the command for migrting and making the database tables `python manage.py migrate`
 5. Running the server and checking the APIS
-   1. By the step above created all the tables required, now run the application or server using the command `python manage.py runserver`
+   1. By the step above create all the tables required, now run the application or server using the command `python manage.py runserver`
    2. Go the postman import this collection `https://api.postman.com/collections/34747528-92259e36-64f0-470f-94de-de7aa9cd9933?access_key=PMAT-01J2NXWNAK9MQYCQK8D57X1JKJ`
    3. create enviroment postman with variables url as `http://localhost:8000`, token value you can steup when you logged in
-   4. call the create API You will get the result following image
+   4. call the create API You will get the result following image<img width="946" alt="image" src="https://github.com/user-attachments/assets/5cc58ae5-bd61-4d65-ac29-783d7087cda2">
+   5. Congrats your backend setup for this project is done.
+
 
 
 
 
 ### Aditional Commands
-1. whenever installed new package update the requirements.txt using the command `pip freeze > requirements.txt` make sure your virtual environment is active before running this command.
+1. whenever installed new package is update the requirements.txt using the command `pip freeze > requirements.txt` make sure your virtual environment is active before running this command.
 
 
 
