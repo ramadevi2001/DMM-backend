@@ -21,6 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include('user.urls')),
     path('api/', include('choices.urls')),  # Include choice URLs
-    path('api/', include('goals.urls')),  # Replace 'goals' with your app name
+    path('api/', include('goals.urls')),  # Include the goals app URLs
+    # ... other app URLs,  # Replace 'goals' with your app name
     path('api/', include('monthly_goals.urls')),
 ]
