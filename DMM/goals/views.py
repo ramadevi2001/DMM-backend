@@ -7,7 +7,7 @@ class GoalListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = GoalSerializer
 
     def get_queryset(self):
-        user_id  = self.context['request'].user
+        user_id = self.kwargs['user_id']
         return Goal.objects.filter(choice__user_id=user_id)
 
 class GoalDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
