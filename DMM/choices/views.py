@@ -1,5 +1,4 @@
 # choices/views.py
-
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -8,12 +7,15 @@ from .models import Choice
 from .serializers import ChoiceSerializer
 
 class ChoiceListCreateView(generics.ListCreateAPIView):
-    queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+        return Choice.objects.filter(user=user)
+
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         try:
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
@@ -29,7 +31,7 @@ class ChoiceDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        serializer = self.get_serializer(instance, data=request.data, context={'request': request})
         try:
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
@@ -47,5 +49,11 @@ class UserChoicesView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user_id = self.kwargs.get('user_id')
-        return Choice.objects.filter(user_id=user_id)
+        user = self.request.user
+        queryset = Choice.objects.filter(user=user)
+
+        become = self.request.query_params.get('become', None)
+        if become:
+            queryset = queryset.filter(become=become)
+
+        return queryset
