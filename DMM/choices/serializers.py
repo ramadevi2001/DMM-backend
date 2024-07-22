@@ -1,11 +1,12 @@
+# choices/serializers.py
 from rest_framework import serializers
 from .models import Choice
 
 class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choice
-        fields = ['id', 'become']
-        read_only_fields = ['id']
+        fields = ['id', 'become','user']
+        read_only_fields = ['id','user']
 
     def validate(self, data):
         user = self.context['request'].user
