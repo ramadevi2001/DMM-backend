@@ -1,11 +1,12 @@
-# monthly_goals/urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import MonthlyGoalViewSet
-
-router = DefaultRouter()
-router.register(r'monthly_goals', MonthlyGoalViewSet)
+from django.urls import path
+from .views import (
+    MonthlyGoalListCreateAPIView,
+    MonthlyGoalDetailAPIView,
+    MonthlyGoalsByGoalAPIView
+)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('monthly_goals/', MonthlyGoalListCreateAPIView.as_view(), name='monthly-goal-list-create'),
+    path('monthly_goals/<uuid:pk>/', MonthlyGoalDetailAPIView.as_view(), name='monthly-goal-detail'),
+    path('monthly_goals/goal/<uuid:goal_id>/', MonthlyGoalsByGoalAPIView.as_view(), name='monthly-goals-by-goal'),
 ]
