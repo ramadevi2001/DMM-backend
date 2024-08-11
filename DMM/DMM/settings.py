@@ -57,10 +57,12 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
    
 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",  # Example: Allow requests from your frontend URL
-    "https://example.com",    # Add additional domains as needed
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8000",  # Example: Allow requests from your frontend URL
+#     "https://example.com", 
+#     "http://localhost:3001",  # Add additional domains as needed
+# ]
 
 ROOT_URLCONF = "DMM.urls"
 
@@ -91,7 +93,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "DMM-backend",
         "USER": "postgres",
-        "PASSWORD": "ramadevi",
+        "PASSWORD": "Helen@282",
         "HOST": "localhost",
         "PORT": "5432"
     }
