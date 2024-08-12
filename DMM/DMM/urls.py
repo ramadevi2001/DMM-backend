@@ -25,4 +25,5 @@ urlpatterns = [
     # ... other app URLs,  # Replace 'goals' with your app name
     path('api/', include('monthly_goals.urls')),
     path('api/', include('habits.urls')),
+    path('api/', include('observations.urls')),
 ]
