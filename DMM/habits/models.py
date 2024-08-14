@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-
 import uuid
 from django.conf import settings
 from monthly_goals.models import MonthlyGoal
@@ -17,7 +14,7 @@ class Habit(models.Model):
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
     productivity = models.FloatField(null=False)
+    is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
-

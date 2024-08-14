@@ -2,28 +2,47 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Habit
-from .serializers import HabitSerializer
-from django.utils.timezone import now, localtime, make_aware
-from datetime import datetime, timedelta
+from .serializers import HabitSerializer, HabitCreateSerializer, HabitUpdateSerializer
+from django.utils.timezone import make_aware
+from datetime import datetime
 
 class HabitListCreateAPIView(generics.ListCreateAPIView):
-    serializer_class = HabitSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return HabitCreateSerializer
+        return HabitSerializer
 
     def get_queryset(self):
         user = self.request.user
         return Habit.objects.filter(user=user)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 class HabitDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = HabitSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
         return Habit.objects.filter(user=user)
+
+    def get_serializer_class(self):
+        if self.request.method in ['PUT', 'PATCH']:
+            return HabitUpdateSerializer
+        return HabitSerializer
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if instance.is_done:
+            instance.productivity = self.calculate_productivity(
+                instance.start_time,
+                instance.end_time,
+                instance.planned_period_minutes
+            )
+            instance.save()
+
+    def calculate_productivity(self, start_time, end_time, planned_period_minutes):
+        duration = (end_time - start_time).total_seconds() / 60  # in minutes
+        return round(min(100, (duration / planned_period_minutes) * 100), 2)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -44,7 +63,6 @@ class HabitByDateAPIView(APIView):
 
     def get(self, request, date):
         user = request.user
-        # Parse the date string in the format 'YYYY-MM-DD'
         date_obj = datetime.strptime(date, "%d-%m-%Y")
         start_date = make_aware(datetime.combine(date_obj, datetime.min.time()))
         end_date = make_aware(datetime.combine(date_obj, datetime.max.time()))
