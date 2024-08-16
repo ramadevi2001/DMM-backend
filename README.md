@@ -6,7 +6,7 @@
     2. PostgreSQL & PgAdmin
     3. Visual Studio Code editor
     4. Postman
-2. Clone the repository using the the following command: git clone https://github.com/<reponame>
+2. Clone the repository using the the following command: git clone https://github.com/ramadevi2001/DMM-backend.git
 3. Setup Database :
     1. create database using the pgadmin
     2. In the code go to setttings.py file change your database configuration (database, username, password)
