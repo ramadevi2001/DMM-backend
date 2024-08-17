@@ -60,11 +60,6 @@ MIDDLEWARE = [
    
 ]
 CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8000",  # Example: Allow requests from your frontend URL
-#     "https://example.com", 
-#     "http://localhost:3001",  # Add additional domains as needed
-# ]
 
 ROOT_URLCONF = "DMM.urls"
 
